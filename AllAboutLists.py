@@ -6,20 +6,15 @@ September 20, 2020
 """
 
 def main():
+    peopleList = [[],[]]
+    peopleList = [['Ana', 'Bonavides', 'Aguilar', 'Besties'],['Ana', 'Bonavides', 'Aguilar', 'Enemies']]
     
-    # This will be the lists that the user can fill out with my CRUD functions 
-    bestiesList = []
-    enemiesList = []
-    
-    # I define some filled lists to try the functions that need info on the lists to work.
-    bestiesList = ['Ana', 'Bonavides', 'Aguilar', 'Besties']
-    enemiesList = ['Ana', 'Bonavides', 'Aguilar', 'Enemies']
-    
+
     cond = False
-    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '4.0) See the index from a Person´s Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.1) Count occurences of a String in a Name' + '\n' + '4.4) Find the occurences of a String in a hole array' + '\n' + '5.0) Reverse the list´s order' + '\n' + '5.1) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
+    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '4.0) See the index from a Person´s Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.2) Count occurences of a String in a Name' + '\n' + '4.3) Find the occurences of a String in a hole array' + '\n' + '5.0) Reverse the list´s order' + '\n' + '5.1) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
 
     while cond == False:
-        print('Please enter the number of the function you want to use: ')
+        print('\n' + 'Please enter the number of the function you want to use: ')
         try:
             chooseFunc = float(input())
         except:
@@ -28,34 +23,34 @@ def main():
         
         # Calls the Create Function (Add a name to one of the lists.)
         if chooseFunc == 1.0:
-            bestiesList, enemiesList = addPeople(bestiesList, enemiesList)
-            print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
+            peopleList = addPeople(peopleList)
+            print('\n' + 'This is your list after the addition: ' + '\n',peopleList,'\n')
             continue
 
         # Calls the delete function (Remove names to one if the lists, knowing it.)
         elif chooseFunc == 2.0:
-            bestiesList, enemiesList = deletePeople(bestiesList, enemiesList)
-            print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
+            peopleList = deletePeople(peopleList)
+            print('\n' + 'This is your list after the deletion: ' + '\n',peopleList,'\n')
             continue
 
         # Pop
         elif chooseFunc == 2.1:
-            bestiesList, enemiesList = popPeople(bestiesList, enemiesList)
-            print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
+            peopleList = popPeople(peopleList)
+            print('\n' + 'These are your two lists after the popping: ' + '\n',peopleList,'\n')
             continue
 
         # Read lists
         elif chooseFunc == 3.0:
-            readPeople(bestiesList, enemiesList)
+            readPeople(peopleList)
             continue
         
         # See index of a Person´s name
         elif chooseFunc == 4.0:
-            indexPeople(bestiesList, enemiesList)
+            indexPeople(peopleList)
             continue
 
         elif chooseFunc == 4.1:
-            findLetter(bestiesList)
+            findLetter(peopleList)
             continue
         
         elif chooseFunc == 4.2:
@@ -63,12 +58,12 @@ def main():
             continue
 
         elif chooseFunc == 4.3:
-            countLettersList(bestiesList, enemiesList)
+            countLettersList(peopleList)
             continue
 
         # Revert the list
         elif chooseFunc == 5.0:
-            revertList(bestiesList, enemiesList)
+            revertList(peopleList)
 
         # Join Strings
         elif chooseFunc == 5.1:
@@ -196,7 +191,7 @@ CRUD FUNCTIONS
 
 # Add a Person in the chosen list 
 # Option #1.0
-def addPeople(bestiesList, enemiesList):
+def addPeople(peopleList):
     print('Would you like to add besties or enemies?' + '\n' + 'Please eneter 0 if you want to change the Besties List, or 1 if you want to change the Enemies List: ')
     chooseList = validateNumber()
 
@@ -213,55 +208,47 @@ def addPeople(bestiesList, enemiesList):
                 personName = formatCompleteName()
             else:
                 personName = validateString()
+            
+            peopleList[chooseList].append(personName)
 
-            if chooseList == 0:
-                bestiesList.append(personName)
-            else:
-                enemiesList.append(personName)
-        
             validContinue = continueValidate()
             print('Valid Char= ' + validContinue)
     
-    return bestiesList, enemiesList
+    return peopleList
 
 
 
 # Delete People in a given list
 # Option #2.0
-def deletePeople(bestiesList, enemiesList):
+def deletePeople(peopleList):
     print('Would you like to delete besties or enemies?')
-    num = validateNumber()
+    chooseList = validateNumber()
 
     cond = False
     while cond == False:
-        print('Please enter your Non-Bestie name, or 0 if you want to stop: ')
+        print('\n' + 'Please enter your Non-Bestie name, or 0 if you want to stop: ')
         nonBestie = validateCompleteName()
         try:
             if nonBestie == '0':
                 cond = True
             else:
-                if num == 0:
-                    print('This is the name that will be deleted from the Besties List: '+ "'{}'".format(nonBestie))
-                    # I remove the name from the list
-                    bestiesList.remove(nonBestie)
-                else:
-                    print('This is the name that will be deleted from the Enemies List: '+ "'{}'".format(nonBestie))
-                    # I remove the name from the list
-                    enemiesList.remove(nonBestie)
+                print('This is the name that will be deleted from the Besties List: '+ "'{}'".format(nonBestie))
+                # I remove the name from the list
+                peopleList[chooseList].remove(nonBestie)
 
         except:
             print('I am sorry, but this is not a valid name. Please check your spelling.' + '\n')
             continue
     
-    return bestiesList,enemiesList
+    return peopleList
 
 
 
 # Pop people from a given list
 # Option #2.1
-def popPeople(bestiesList, enemiesList):
+def popPeople(peopleList):
     print('Would you like to pop besties or enemies?')
-    num = validateNumber()
+    chooseList = validateNumber()
 
     cond = False
     while cond == False:
@@ -270,36 +257,26 @@ def popPeople(bestiesList, enemiesList):
             if personIndex == 's':
                 cond = True
             else:
-                if num == 0:
-                    print('This is the name that will be deleted from the Besties List: ' + bestiesList[int(personIndex)])
-                    # I remove the name from the list taking account the index
-                    continue
-                else:
-                    print('This is the name that will be deleted from the Enemies List: ' + enemiesList[int(personIndex)])
-                    # I remove the name from the list taking account the index
-                    continue
+                print('This is the name that will be deleted from the chosen List: ' + peopleList[chooseList][int(personIndex)])
+                peopleList[chooseList].pop(int(personIndex))
+                # I remove the name from the list taking account the index
         except:
             print('I am sorry, but this is not a valid index.' + '\n')
             continue
 
-    return bestiesList,enemiesList
+    return peopleList
 
 
 
 # Read given list 
 # Option #3.0
-def readPeople(bestiesList, enemiesList):
+def readPeople(peopleList):
     print('Would you like to read the besties or enemies list?')
     chooseList = validateNumber()
 
     # printing the list using * operator separated
-    if chooseList == 0:
-        print('This is your besties list: ')
-        print(*bestiesList, sep = ', ')
-    else:
-        print('This is your enemies list: ')
-        print(', '.join(enemiesList))
-
+    print(*peopleList[chooseList], sep = ', ')
+    print('\n' + '\n'.join(peopleList[chooseList]))
 
 
 """
@@ -313,24 +290,21 @@ FIND THINGS FUNCTIONS
 
 # Get the index from a name
 # Option #4.0
-def indexPeople(bestiesList, enemiesList):
+def indexPeople(peopleList):
     print('Would you like to add besties or enemies?')
-    num = validateNumber()
+    chooseList = validateNumber()
     
     cond = False
     while cond == False:
-        print('Please enter the name of the person you want to get the index from, or "e" if you want to exit: ')
+        print('\n' + 'Please enter the name of the person you want to get the index from, or "e" if you want to exit: ')
         nameCheck = validateString()
 
         try:
             if nameCheck == 'E':
                 cond = True            
             else:
-                if num == 0:
-                    index = bestiesList.index(nameCheck)
-                else:
-                    index = enemiesList.index(nameCheck)
-                print(index)
+                index = peopleList[chooseList].index(nameCheck)
+                print('This is your index: ',index)
         except:
             print('Please enter a valid name.' + '\n')
 
@@ -340,20 +314,23 @@ def indexPeople(bestiesList, enemiesList):
 
 # Find Letter Index in String Function
 # Option #4.1
-def findLetter(bestiesList):
+def findLetter(peopleList):
+    print('Would you like to add besties or enemies?')
+    chooseList = validateNumber()
+
     cond = False
     while cond == False:
         try:
-            bestieIndex = int(input('Please enter the index of the Name you want to check the letter in: '))
-            bestieName = bestiesList[bestieIndex]
+            indexCheck = int(input('Please enter the index of the Name you want to check the letter in: '))
+            name = peopleList[chooseList][indexCheck]
             cond = True
         except:
             print('Please enter a valid index number.')
 
-    print('Name used: ' + bestieName + '\n')
+    print('Name used: ' + name + '\n')
     letter = str(input('Please enter the letter(s) you want to check first occurence index: '))
-    letterIndex = bestieName.find(letter)
-    print('Name: ' + bestieName + '\n' + 'Letter checked: ' + letter + '\n' + 'Index: ' + str(letterIndex) + '\n')
+    letterIndex = name.find(letter)
+    print('Name: ' + name + '\n' + 'Letter checked: ' + letter + '\n' + 'Index: ' + str(letterIndex) + '\n')
 
 
 
@@ -361,7 +338,7 @@ def findLetter(bestiesList):
 # Count Letter(s) in a String Function 
 # Option #4.2
 def countLetters():
-    bestieName = str(input('Please enter the name you want to check: '))
+    bestieName = validateString()
     letter = str(input('Please enter the letter(s) you want to count: '))
     letterCount = bestieName.count(letter)
     print('Name: ' + bestieName + '\n' + 'Letter checked: ' + letter + '\n' + 'Ocurrences: ' + str(letterCount) + '\n')
@@ -371,14 +348,11 @@ def countLetters():
 
 # Find the number of a string instance in a whole List
 # Option #4.3
-def countLettersList(bestiesList, enemiesList):
-    print('Would you like to add besties or enemies?')
-    num = validateNumber()
+def countLettersList(peopleList):
+    print('Would you like to look in besties or enemies?')
+    chooseList = validateNumber()
     counter = 0
-    if num == 0:
-        listLook = bestiesList
-    else:
-        listLook = enemiesList
+    listLook = peopleList[chooseList]
     
     cond = False
     while cond == False:
@@ -405,19 +379,15 @@ MODIFY LISTS FUNCTIONS
 
 
 # Revert the list´s order
-# Option #3.2
-def revertList(bestiesList, enemiesList):
+# Option #5.0
+def revertList(peopleList):
     print('Would you like to reverse the besties or enemies list?')
-    num = validateNumber()
+    chooseList = validateNumber()
 
-    if num == 0:
-        list.reverse(bestiesList)
-        print(bestiesList, '\n')
-    else:
-        list.reverse(enemiesList)
-        print(enemiesList, '\n')
-    
-    return bestiesList, enemiesList
+    list.reverse(peopleList[chooseList])
+    print(peopleList[chooseList])
+
+    return peopleList
 
 
 # Join Strings Function 
