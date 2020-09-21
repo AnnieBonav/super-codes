@@ -1,13 +1,17 @@
 """
 All about strings and lists
 Ana Bonavides
+September 20, 2020
+
 """
 
 def main():
     
+    # This will be the lists that the user can fill out with my CRUD functions 
     bestiesList = []
     enemiesList = []
     
+    # I define some filled lists to try the functions that need info on the lists to work.
     bestiesList = ['Ana', 'Bonavides', 'Aguilar', 'Besties']
     enemiesList = ['Ana', 'Bonavides', 'Aguilar', 'Enemies']
     
@@ -21,13 +25,14 @@ def main():
         except:
             print('Please enter a correct number.')
             continue
-
+        
+        # Calls the Create Function (Add a name to one of the lists.)
         if chooseFunc == 1.0:
             bestiesList, enemiesList = addPeople(bestiesList, enemiesList)
             print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
             continue
 
-        # Remove
+        # Calls the delete function (Remove names to one if the lists, knowing it.)
         elif chooseFunc == 2.0:
             bestiesList, enemiesList = deletePeople(bestiesList, enemiesList)
             print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
@@ -81,23 +86,85 @@ def main():
 
 # DEFINING MY FUNCTIONS
 
+
+# This function is used to validate a given string (Capitalize and remove spaces)
+def validateString():
+    name = str.strip(input('Please enter the name: '))
+    name = str.capitalize(name)
+    print('This is the name you are adding: ' + name)
+    return name
+
+
+
+# THis function is used to show how we can format things
+def formatCompleteName():
+    firstName = str.strip(input('Please enter the First Name: '))
+    firstName = str.capitalize(firstName)
+
+    lastName = str.strip(input('Please enter the Last Name: '))
+    lastName = str.capitalize(lastName)
+
+    completeName = f"{firstName} {lastName}"
+    print('This is your complete Name: ' + completeName)
+    return completeName
+
+
+def validateCompleteName():
+    name = str.strip(input('Please enter the name you want to remove: '))
+    name = str.title(name)
+
+    return name
+
+
+def continueValidate():
+    while True:
+        try:
+            validChar = str(input('\n' + 'Please enter 1 if you would like to add another name, or 0 if you are done: '))
+            if validChar == '0':
+                return validChar
+            elif validChar == '1':
+                return validChar
+            else:
+                print('I am sorry, this is not one of the options.' + '\n')
+
+        except:
+            print('I am sorry, this is not a valid number.')
+
+
+
+"""
+
+
+"""
+
+
 # Add a Person in the chosen list 
 # Option #1.0
 def addPeople(bestiesList, enemiesList):
-    print('Would you like to add besties or enemies?')
-    num = validateNumber()
+    print('Would you like to add besties or enemies?' + '\n' + 'Please eneter 0 if you want to change the Besties List, or 1 if you want to change the Enemies List: ')
+    chooseList = validateNumber()
 
-    cond = False
-    while cond == False:
-        personName = str.capitalize(input('Please enter your Bestie name, or 0 if you want to stop: '))
+    print('Would you like to add a complete Name?' + '\n' + 'Please eneter 0 if you want to add a single Name, or 1 if you want to add a Complete name: ')
+    completeName = validateNumber()
+    validContinue = ''
 
-        if personName == '0':
-            cond = True
+    while True:
+        if validContinue == '0':
+            break
+        
         else:
-            if num == 0:
+            if completeName == 1:
+                personName = formatCompleteName()
+            else:
+                personName = validateString()
+
+            if chooseList == 0:
                 bestiesList.append(personName)
             else:
                 enemiesList.append(personName)
+        
+            validContinue = continueValidate()
+            print('Valid Char= ' + validContinue)
     
     return bestiesList, enemiesList
 
@@ -110,7 +177,8 @@ def deletePeople(bestiesList, enemiesList):
 
     cond = False
     while cond == False:
-        nonBestie = str.capitalize(input('Please enter your Non-Bestie name, or 0 if you want to stop: '))
+        print('Please enter your Non-Bestie name, or 0 if you want to stop: ')
+        nonBestie = validateCompleteName()
         try:
             if nonBestie == '0':
                 cond = True
@@ -302,11 +370,11 @@ def joinStrings():
 def validateNumber():
     while True:
         try:
-            num = int(input('Please eneter 0 if you want to change the Besties List, or 1 if you want to change the Enemies List: '))
+            num = int(input())
             if num ==  0 or num ==1:
                 return num
             else:
-                print('Please enter a 0 if you want to change Besties, or a 1 if you want to change enemies: ')
+                print('This is not one of the options. \n ')
                 continue
         except:
             print('Please enter a valid number')
