@@ -16,7 +16,7 @@ def main():
     enemiesList = ['Ana', 'Bonavides', 'Aguilar', 'Enemies']
     
     cond = False
-    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '3.) See the index from a Person´s Name' + '\n' + '3.2) Reverse the list´s order' + '\n' + '4.0) Count occurences of a String in a Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.2) Find the occurences of a String in a hole array' + '\n' + '5.0) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
+    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '3.1) See the index from a Person´s Name' + '\n' + '3.2) Reverse the list´s order' + '\n' + '4.0) Count occurences of a String in a Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.2) Find the occurences of a String in a hole array' + '\n' + '5.0) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
 
     while cond == False:
         print('Please enter the number of the function you want to use: ')
@@ -86,12 +86,28 @@ def main():
 
 # DEFINING MY FUNCTIONS
 
+"""
+
+
+VALIDATION STRINGS FUNCTIONS
+
+
+
+"""
 
 # This function is used to validate a given string (Capitalize and remove spaces)
 def validateString():
     name = str.strip(input('Please enter the name: '))
     name = str.capitalize(name)
-    print('This is the name you are adding: ' + name)
+    print('This is the name you wrote: ' + name)
+    return name
+
+
+
+def validateCompleteName():
+    name = str.strip(input('Please enter the name you want to remove: '))
+    name = str.title(name)
+
     return name
 
 
@@ -108,12 +124,6 @@ def formatCompleteName():
     print('This is your complete Name: ' + completeName)
     return completeName
 
-
-def validateCompleteName():
-    name = str.strip(input('Please enter the name you want to remove: '))
-    name = str.title(name)
-
-    return name
 
 
 def continueValidate():
@@ -132,7 +142,52 @@ def continueValidate():
 
 
 
+
 """
+
+
+VALIDATE NUMBERS FUNCTIONS
+
+
+
+"""
+
+
+
+# Validate number #0 or #1
+# Option #
+def validateNumber():
+    while True:
+        try:
+            num = int(input())
+            if num ==  0 or num ==1:
+                return num
+            else:
+                print('This is not one of the options. \n ')
+                continue
+        except:
+            print('Please enter a valid number')
+
+
+
+
+def validateAnyInteger():
+    while True:
+        try:
+            num = int(input('Please eneter 0 if you want to change the Besties List, or 1 if you want to change the Enemies List: '))
+            return num
+        except:
+            print('Please enter a valid number.')
+
+
+
+
+
+"""
+
+
+CRUD FUNCTIONS
+
 
 
 """
@@ -231,10 +286,10 @@ def popPeople(bestiesList, enemiesList):
 # Option #3.0
 def readPeople(bestiesList, enemiesList):
     print('Would you like to read the besties or enemies list?')
-    num = validateNumber()
+    chooseList = validateNumber()
 
     # printing the list using * operator separated
-    if num == 0:
+    if chooseList == 0:
         print('This is your besties list: ')
         print(*bestiesList, sep = ', ')
     else:
@@ -242,6 +297,15 @@ def readPeople(bestiesList, enemiesList):
         print(', '.join(enemiesList))
 
 
+
+"""
+
+
+FIND THINGS FUNCTIONS
+
+
+
+"""
 
 # Get the index from a name
 # Option #3.1
@@ -251,9 +315,11 @@ def indexPeople(bestiesList, enemiesList):
     
     cond = False
     while cond == False:
-        nameCheck = str.capitalize((input('Please enter the name of the person you want to get the index from, or "e" if you want to exit: ')))
+        print('Please enter the name of the person you want to get the index from, or "e" if you want to exit: ')
+        nameCheck = validateString()
+
         try:
-            if nameCheck == 'e':
+            if nameCheck == 'E':
                 cond = True            
             else:
                 if num == 0:
@@ -262,25 +328,7 @@ def indexPeople(bestiesList, enemiesList):
                     index = enemiesList.index(nameCheck)
                 print(index)
         except:
-            print('Please enter a valid name.')
-
-
-
-
-# Revert the list´s order
-# Option #3.2
-def revertList(bestiesList, enemiesList):
-    print('Would you like to reverse the besties or enemies list?')
-    num = validateNumber()
-
-    if num == 0:
-        list.reverse(bestiesList)
-        print(bestiesList, '\n')
-    else:
-        list.reverse(enemiesList)
-        print(enemiesList, '\n')
-    
-    return bestiesList, enemiesList
+            print('Please enter a valid name.' + '\n')
 
 
 
@@ -339,6 +387,34 @@ def countLettersList(bestiesList, enemiesList):
 
 
 
+
+"""
+
+
+MODIFY LISTS FUNCTIONS
+
+
+
+"""
+
+
+
+# Revert the list´s order
+# Option #3.2
+def revertList(bestiesList, enemiesList):
+    print('Would you like to reverse the besties or enemies list?')
+    num = validateNumber()
+
+    if num == 0:
+        list.reverse(bestiesList)
+        print(bestiesList, '\n')
+    else:
+        list.reverse(enemiesList)
+        print(enemiesList, '\n')
+    
+    return bestiesList, enemiesList
+
+
 # Join Strings Function 
 # Option #5.0
 def joinStrings():
@@ -361,34 +437,6 @@ def joinStrings():
     
     return joinedList
     # http://pythontutor.com/visualize.html#code=def%20joinStrings%28%29%3A%0A%20%20%20%20joiner%20%3D%20str%28input%28'Please%20enter%20the%20joiner%20you%20want%20to%20use%3A%20'%29%29%0A%20%20%20%20joiner%20%3D%20'%22'%20%2B%20joiner%20%2B%20'%22'%0A%0A%20%20%20%20i%20%3D%200%0A%20%20%20%20wordsNum%20%3D%200%0A%20%20%20%20completeString%20%3D%20''%0A%20%20%20%20while%20i%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20word%20%3D%20str%28input%28'Please%20enter%20the%20word%20you%20want%20to%20add,%20or%200%20if%20you%20don%C2%B4t%20have%20any%20more%20words%3A%20'%29%29%0A%20%20%20%20%20%20%20%20print%28'This%20is%20your%20word%3A%20'%20%2B%20word%29%0A%20%20%20%20%20%20%20%20if%20word%20%3D%3D%20'0'%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20i%20%3D%20i%2B1%0A%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20if%20wordsNum%20%3D%3D%200%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20completeString%20%3D%20'%22'%20%2B%20word%20%2B%20'%22'%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20wordsNum%20%3D%20wordsNum%20%2B%201%0A%20%20%20%20%20%20%20%20%20%20%20%20else%3A%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20completeString%20%3D%20','%2B%20'%22'%20%2B%20word%20%2B%20'%22'%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20wordsNum%20%3D%20wordsNum%20%2B1%0A%0A%20%20%20%20completeString%20%3D%20'%28'%20%2B%20completeString%20%2B%20'%29'%0A%20%20%20%20joinedString%20%3D%20joiner.join%28completeString%29%0A%0A%20%20%20%20print%28'Number%20of%20words%20Added%3A%20'%20%2B%20str%28wordsNum%29%20%2B%20'%5Cn'%20%2B%20'Joiner%3A%20'%20%2B%20joiner%20%2B%20'%5Cn'%29%0A%20%20%20%20return%20joinedString%0A%20%20%20%20%0A%0AjoinStrings%28%29&cumulative=false&curInstr=22&heapPrimitives=nevernest&mode=display&origin=opt-frontend.js&py=3&rawInputLstJSON=%5B%22-%22,%22Annie%22,%22Cesar%22%5D&textReferences=false
-
-
-
-
-# Validate number #0 or #1
-# Option #
-def validateNumber():
-    while True:
-        try:
-            num = int(input())
-            if num ==  0 or num ==1:
-                return num
-            else:
-                print('This is not one of the options. \n ')
-                continue
-        except:
-            print('Please enter a valid number')
-
-
-
-
-def validateAnyInteger():
-    while True:
-        try:
-            num = int(input('Please eneter 0 if you want to change the Besties List, or 1 if you want to change the Enemies List: '))
-            return num
-        except:
-            print('Please enter a valid number.')
 
 
 
