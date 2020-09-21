@@ -16,7 +16,7 @@ def main():
     enemiesList = ['Ana', 'Bonavides', 'Aguilar', 'Enemies']
     
     cond = False
-    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '3.1) See the index from a Person´s Name' + '\n' + '3.2) Reverse the list´s order' + '\n' + '4.0) Count occurences of a String in a Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.2) Find the occurences of a String in a hole array' + '\n' + '5.0) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
+    print('Welcome to my program, here are the functions you can use' + '\n' + '1.0) Add a Person´s name' + '\n' + '2.0) Remove a Person´s name, knowing their name' + '\n' + '2.1) Remove a Person´s name, knowing their index in the Array' + '\n' + '3.0) See Lists' + '\n' '4.0) See the index from a Person´s Name' + '\n' + '4.1) Find index of a letter on String in an Array' + '\n' + '4.1) Count occurences of a String in a Name' + '\n' + '4.4) Find the occurences of a String in a hole array' + '\n' + '5.0) Reverse the list´s order' + '\n' + '5.1) Join different words with letter(s)' + '\n' + '0.0) Exit' + '\n')
 
     while cond == False:
         print('Please enter the number of the function you want to use: ')
@@ -44,35 +44,39 @@ def main():
             print('\n' + 'These are your two lists after the addition: ' + '\n' + 'Besties List: ',bestiesList,'\n' + 'Enemies List: ',enemiesList,'\n')
             continue
 
+        # Read lists
         elif chooseFunc == 3.0:
             readPeople(bestiesList, enemiesList)
             continue
-
-        elif chooseFunc == 3.1:
-            indexPeople(bestiesList, enemiesList)
-            continue
         
-        #Revert the list
-        elif chooseFunc == 3.2:
-            revertList(bestiesList, enemiesList)
-
+        # See index of a Person´s name
         elif chooseFunc == 4.0:
-            countLetters()
+            indexPeople(bestiesList, enemiesList)
             continue
 
         elif chooseFunc == 4.1:
             findLetter(bestiesList)
             continue
-
+        
         elif chooseFunc == 4.2:
+            countLetters()
+            continue
+
+        elif chooseFunc == 4.3:
             countLettersList(bestiesList, enemiesList)
             continue
 
+        # Revert the list
         elif chooseFunc == 5.0:
+            revertList(bestiesList, enemiesList)
+
+        # Join Strings
+        elif chooseFunc == 5.1:
             joinedString = joinStrings()
             print('This is your joined string: ' + joinedString + '\n')
             continue
 
+        # Exit
         elif chooseFunc == 0.0:
             print('Thank you for using my program!')
             cond = True
@@ -170,7 +174,6 @@ def validateNumber():
 
 
 
-
 def validateAnyInteger():
     while True:
         try:
@@ -178,8 +181,6 @@ def validateAnyInteger():
             return num
         except:
             print('Please enter a valid number.')
-
-
 
 
 
@@ -224,6 +225,7 @@ def addPeople(bestiesList, enemiesList):
     return bestiesList, enemiesList
 
 
+
 # Delete People in a given list
 # Option #2.0
 def deletePeople(bestiesList, enemiesList):
@@ -254,6 +256,7 @@ def deletePeople(bestiesList, enemiesList):
     return bestiesList,enemiesList
 
 
+
 # Pop people from a given list
 # Option #2.1
 def popPeople(bestiesList, enemiesList):
@@ -282,6 +285,7 @@ def popPeople(bestiesList, enemiesList):
     return bestiesList,enemiesList
 
 
+
 # Read given list 
 # Option #3.0
 def readPeople(bestiesList, enemiesList):
@@ -308,7 +312,7 @@ FIND THINGS FUNCTIONS
 """
 
 # Get the index from a name
-# Option #3.1
+# Option #4.0
 def indexPeople(bestiesList, enemiesList):
     print('Would you like to add besties or enemies?')
     num = validateNumber()
@@ -333,17 +337,6 @@ def indexPeople(bestiesList, enemiesList):
 
 
 
-# Count Letter(s) in a String Function 
-# Option #4.0
-def countLetters():
-    bestieName = str(input('Please enter the name you want to check: '))
-    letter = str(input('Please enter the letter(s) you want to count: '))
-    letterCount = bestieName.count(letter)
-    print('Name: ' + bestieName + '\n' + 'Letter checked: ' + letter + '\n' + 'Ocurrences: ' + str(letterCount) + '\n')
-    return letterCount
-
-
-
 
 # Find Letter Index in String Function
 # Option #4.1
@@ -364,8 +357,20 @@ def findLetter(bestiesList):
 
 
 
-# Find the number of a string instance in a whole List
+
+# Count Letter(s) in a String Function 
 # Option #4.2
+def countLetters():
+    bestieName = str(input('Please enter the name you want to check: '))
+    letter = str(input('Please enter the letter(s) you want to count: '))
+    letterCount = bestieName.count(letter)
+    print('Name: ' + bestieName + '\n' + 'Letter checked: ' + letter + '\n' + 'Ocurrences: ' + str(letterCount) + '\n')
+    return letterCount
+
+
+
+# Find the number of a string instance in a whole List
+# Option #4.3
 def countLettersList(bestiesList, enemiesList):
     print('Would you like to add besties or enemies?')
     num = validateNumber()
