@@ -4,7 +4,10 @@ Ana Boavides Aguilar
 Electronic Configuration.
 14 August 2020
 """
+# This is a library needed to make different opperations in the code
 import math
+
+# I ask the user to enter the atomic number he wants to get the information from
 atomic_number = int(input('Please enter your atomic number: '))
 
 #I declare my 2 variables, an i (initializer) and a matrix
