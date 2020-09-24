@@ -5,13 +5,18 @@ Writing files
 9/16/2020
 """
 def main():
-    # I create the file 'files_names.txt' with the variable files_var. 
-    files_var = open('files_names.txt','w')
-    files_var.close()
+    print('Thank you for using my code! Here are the functions you can try:\n' + '1) Create a file.\n' + '2) Append to file.\n' + '3) Read your file.\n' + '0) Exit' + '\n')
+
+    try:
+        fileNamesToArray()
+    except:
+        # I create the file 'files_names.txt' with the variable files_var. 
+        files_var = open('files_names.txt','w')
+        files_var.close()
 
     while True:
         try:
-            chooseFunc = int(input('Please enter the number of the function you want to use, or 00 if you want to read the Menu again: '))
+            chooseFunc = int(input('\nPlease enter the number of the function you want to use, or 9 if you want to read the Menu again: '))
         except:
             print('Please enter a valid number.')
             continue
@@ -20,7 +25,7 @@ def main():
             print('Thank you for using my program!')
             break
 
-        elif chooseFunc == 00:
+        elif chooseFunc == 9:
             print('Thank you for using my code! Here are the functions you can try:\n' + '1) Create a file.\n' + '2) Append to file.\n' + '3) Read your file.\n' + '0) Exit' + '\n')
 
         elif chooseFunc == 1:
@@ -34,8 +39,6 @@ def main():
         
         else:
             print('This function does not exist. Please enter a valid function.')
-
-
 
 
 def createFile():
@@ -103,12 +106,7 @@ def fileNamesToArray():
     content = files_var.read()
     names_array = content.split(',')
 
-    print('This is your names array: ',names_array)
-
     return names_array
-
-
-
 
 
 def validateFileName():
@@ -138,8 +136,6 @@ def validateFileName():
             print('Remember your file name can only start with a letter.')
         
 
-
-
 def validateText():
     #Write to file
     user_text = str(input('Please enter the text you want to add to your file: '))
@@ -147,7 +143,6 @@ def validateText():
     user_text = str.capitalize(user_text)
     user_text = user_text + '\n'
     return user_text
-
 
 
 #Use of variable __name__  
