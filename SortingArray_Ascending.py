@@ -1,6 +1,6 @@
 """
-Annie Bonavides ft Tony ft George
-ordenar listas de menor a mayor
+Tesla B
+Sorting 2 Arrays (lower to higher)
 """
 
 print('You can use this code to add the number of arrays you want and sort them out')
@@ -26,10 +26,6 @@ def main():
     array2 = addNumbersArray()
     print(array1, array2, sep = '\n', end = '\n')
 
-    """
-    array1 = [0,0,0,1,13,14,3,2,4,0,9,1,2,0,2,1,2,1,3,4,5,5]
-    array2 = [9,8,8,7,6,5,4,40,0,4,0,5,2,4,8,6,9,0,8,4,9,5,7,2,3,0,7,8,2]
-    """
     myArray = array1 + array2
 
     ordenarNum(myArray)
