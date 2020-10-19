@@ -4,41 +4,39 @@ Tesla
 """
 
 
-"""
-
-Bring matrix info foma file
-
-
-"""
 def main ():
     cond = True
-    file_name = 'friends.txt'
+    base_file_name = 'friends.txt'
+
     separation = '-' * 50
     
     try:
-        file_to_matrix(file_name)
+        file_to_matrix(base_file_name)
     
     except:
-        create_file(file_name)
+        files_var = open('files_names.txt','w')
+        files_var.close()
+        create_file(base_file_name)
         
     while cond == True:
-        print('\n' + separation, 'Hello, these are the functions you can use:','1) Add friends to a matrix', '2) Read your file', '3) Edit your information', '4) Delete people', '6) Create another file', '0) Exit', separation, '\n', sep = '\n')
+        print('\n' + separation, 'Hello, these are the functions you can use:','1) Add friends to a matrix', '2) Read your file', '3) Edit your information', '4) Delete people', '6) Create another file', '0) Exit', '\n', sep = '\n')
         num = validate_function_number()
         if num == 0:
             print('Thanks for using my program, bye bye.')
             cond = False
 
         elif num == 1:
-            add_info(file_name)
+            add_info()
 
         elif num == 2:
+            file_name = file_names_to_array()
             read_file(file_name)
 
         elif num == 3:
-            pass
+            edit_info()
 
         elif num == 4:
-            pass
+            delete_info()
         
         elif num == 6:
             new_file = validate_file_name()
@@ -85,11 +83,15 @@ def validate_file_name():
             
 # This function validates that the user can only enter the number of a function that exists
 def validate_function_number():
+    separation = '-' * 50
+
+    functions = [0,1,2,3,4,5,6]
     cond = True
     while cond == True:
         try:
             num = int(input('Please enter the number: '))
-            if num == 0 or num ==1 or num ==2 or num == 3:
+            print(separation + '\n')
+            if num in functions:
                 return num
             else:
                 print('I am sorry, that function does not exist, please enter a valid number.' + '\n')
@@ -98,6 +100,16 @@ def validate_function_number():
             print('I am sorry, that is not a valid number.' + '\n')
             continue
 
+
+
+
+"""
+
+
+Bring matrix info to file
+
+
+"""
 
 
 # This reads the file and makes it a matrix
@@ -115,7 +127,17 @@ def file_to_matrix(file_name):
 
 
 
+"""
+
+RUD Matrix
+
+
+"""
+
+
 def read_file(file_name):
+
+    separation = '-' * 50
     read_file = open(file_name, 'r')
     matrix = read_file.read()
     matrix = matrix.split('\n')
@@ -123,7 +145,7 @@ def read_file(file_name):
 
     # I convert my files name to a string that I can use so that the user knows which informationh they are looking at
     which_file = file_name[:-4]
-    which_file = which_file.capitalize()
+    which_file = which_file.upper()
 
     for i in range(len(matrix)):
         matrix[i] = matrix[i].split(',')
@@ -139,36 +161,166 @@ def read_file(file_name):
             switched_matrix[j].append(matrix[i][j])
 
     switched = ''
-    print('\n' + 'THIS IS YOUR ' + which_file + ' INFORMATION SO FAR' + '\n')
+    
     for i in range(len(switched_matrix)):
         row = ''
         for j in range(len(switched_matrix[i])):
             if i == 0:
-                if j + 1 == len(switched_matrix[i]):
-                    row = row + ':'
+                if j == 0:
+                    row = 'Complete name, '
+
+                elif j == 1:
+                    pass
+
+                elif j + 1 == len(switched_matrix[i]):
+                    row = row + switched_matrix[i][j] + ':'
+
                 else:
                     row = row + switched_matrix[i][j] + ', '
             
             else:
-                if j == 0 or j == 1:
-                    row = row + switched_matrix[i][j] + ' '
+                if j == 0:
+                    row = '[' + str(i) + '] ' + switched_matrix[i][j] + ' '
 
                 elif j + 1 == len(switched_matrix[i]):
-                    row = row + ';'
+                    row = row + switched_matrix[i][j] + ';'
+                    
                 else:
-                    row = row + ', ' + switched_matrix[i][j]
+                    row = row + switched_matrix[i][j] + ', ' 
+
         switched = switched + row + '\n'
 
-    print(switched)
+    print(separation, 'THIS IS YOUR ' + which_file + ' INFORMATION SO FAR' + '\n', switched, separation, sep = '\n', end = '\n\n')
 
-"""
 
-Append to matrix
+def choose_file():
+    pass
 
-"""
+# Edit matrix informaion
+def edit_info():
+    file_name = file_names_to_array()
+    cond = True
+    while cond == True:
+        read_file(file_name)
+        matrix = file_to_matrix(file_name)
+
+        # This decides which matrix person they will delete
+        num_column = validate_matrix_row(matrix)
+
+        #This shows the info of the person you chose
+        for i in range(len(matrix)):
+            #row = ''
+            for j in range(len(matrix[i])):
+                if j == num_column:
+                    print( '[', i+1, '] ', matrix[i][j], sep = '')
+                   
+        num_row = validate_column_number()
+        num_row = num_row -1
+
+        print('This is the data you will edit:', matrix[num_row][num_column])
+        print('NEW DATA')
+
+        if num_row == 0 or num_row == 1 or num_row == 2:
+            value = validate_text()
+        elif num_row == 3:
+            value = validate_age()
+        elif num_row == 4:
+            value = validate_number()
+             
+        # I change the value
+        matrix[num_row][num_column] = value
+        
+        print('\n' + 'THIS WOULD BE YOUR INFORMATION')
+        #This shows the new info
+        for i in range(len(matrix)):
+            #row = ''
+            for j in range(len(matrix[i])):
+                if j == num_column:
+                    print( '[', i+1, '] ', matrix[i][j], sep = '')
+
+        validate = validate_save()
+        if validate == 0:
+            continue
+        elif validate == 1:
+            save_to_file(file_name, matrix)
+            cond = False
+        else:
+            cond = False
+
+        
+
+
+def validate_column_number():
+    while True:
+        try:
+            num = int(input('Please enter the number of data you want to edit: '))
+            if num < 1 or num > 5:
+                print('Please enter a valid data number')
+            else:
+                return num
+        except:
+            print('Please enter a valid number.')
+
+
+def delete_info():
+    file_name = file_names_to_array()
+    cond = True
+    while cond == True:
+        read_file(file_name)
+        matrix = file_to_matrix(file_name)
+
+        # This decides which matrix person they will delete
+        num = validate_matrix_row(matrix)
+        print('This is the number you chose: ', num)
+
+        #This removes the index
+        for i in range(len(matrix)):
+            for j in range(len(matrix[i])):
+                if j == num:
+                    matrix[i].pop(j)
+
+        print('\n' + 'This would be your information:')
+        for element in matrix:
+            print(element)
+        
+
+        validate = validate_save()
+        if validate == 0:
+            continue
+        elif validate == 1:
+            save_to_file(file_name, matrix)
+            cond = False
+        else:
+            cond = False
+            
+
+
+# This function is so that users enter the numnber of the person´s index they want to edit/delete
+def validate_matrix_row(matrix):
+
+    while True:
+        try:
+            num = int(input('Please enter the number of the person you want to edit/remove: '))
+            if num == 0:
+                print('Please enter a valid number, this person doesn´t exist.' + '\n')
+                continue
+            else:
+                try:
+                    trying = matrix[0][num]
+                    return num
+                except:
+                    print('Please enter a number of a person that exists.' + '\n')
+                    continue
+        except:
+            print('Please enter a valid number.' + '\n')
+            continue
+
+
 
 # IN erethe person has the possibility of adding a frien´s information
-def add_info (file_name):
+def add_info ():
+    file_name = file_names_to_array()
+
     cond = True
     while cond == True:
         matrix = file_to_matrix(file_name)
@@ -198,7 +350,7 @@ def add_info (file_name):
 
         # Cellphone
         print('Please enter the cellphone of the person you are adding: ')
-        cellphone = vaidate_number()
+        cellphone = validate_number()
         matrix[4].append(cellphone)
 
         print('\n' + 'This would be your matrix:')
@@ -261,7 +413,8 @@ Validate
 
 # This is the  function that validates the Text that you are adding to the matrix
 def validate_text ():
-    text = input()
+
+    text = input('Please enter your text: ')
     text = text.strip()
     text = text.title()
 
@@ -285,7 +438,7 @@ def validate_age():
 
 
 #This validate the number
-def vaidate_number():
+def validate_number():
     while True:
         try:
             num = int(input('Number: '))
@@ -316,6 +469,13 @@ def create_file(file_name):
         cond = False
 
     while cond == True:
+        
+        # Append to file name
+        append_file_name = open('files_names.txt', 'a')
+        append_file_name.write(file_name)
+        append_file_name.write('\n')
+        append_file_name.close()
+
         title_file = 'Hey! In here you can consult all your ' + which_file + ' information.' + '\n'
 
         create_file = open(file_name, 'w')
@@ -349,6 +509,44 @@ def matrix_to_file(file_name):
 
     append_file.close()
 
+
+
+def file_names_to_array():
+    files_var = open('files_names.txt','r')
+    content = files_var.read()
+    names_array = content.split('\n')
+
+    names_array.pop(-1)
+
+    names_string = ''
+    #print(names_array)
+    for i in range(len(names_array)):
+        names_string = names_string + '[' + str(i + 1) + '] ' + names_array[i] + '\n'
+    
+    print(names_string)
+
+
+    num = validate_file_names_to_array_number(len(names_array))
+    num = num -1
+
+    file_name = names_array[num]
+
+    print('This is the file you chose: ', file_name)
+    return file_name
+
+
+
+def validate_file_names_to_array_number(array_length):
+    while True:
+        try:
+            num = int(input('Please enter the number of the file you want to use: '))
+            if num < 1 or num > array_length:
+                print('Please enter a valid number.')
+                continue
+            else:
+                return num
+        except:
+            print('This is not a valid number.')
 
 
 
